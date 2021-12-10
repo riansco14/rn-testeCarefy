@@ -19,3 +19,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+/*
+"yarn add react-redux @reduxjs/toolkit redux-persist"
+"expo install expo-font @expo-google-fonts/poppins "
+"expo install expo-app-loading "
+"yarn add styled-components @types/styled-components-react-native"
+"yarn add axios"
+*/
