@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "testeCarefy",
+    "slug": "testeCarefy",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "testeCarefy"
+}
