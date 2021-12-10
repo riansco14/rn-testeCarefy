@@ -1,24 +1,44 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 
-export default function App() {
+//Redux - START
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import store from './src/store/store';
+import { persistStore } from 'redux-persist';
+//Redux - END
+
+import { ThemeProvider } from 'styled-components/native';
+import theme from './src/global/styles/theme';
+import { useFonts, Poppins_400Regular, Poppins_500Medium, Poppins_700Bold } from '@expo-google-fonts/poppins';
+import AppLoading from 'expo-app-loading';
+
+
+import { Teste } from './src/screens/Teste';
+
+export default function App (){
+
+  let [fontsLoaded] = useFonts({
+    Poppins_400Regular, Poppins_500Medium, Poppins_700Bold,
+  });
+
+  if (!fontsLoaded)
+    {return <AppLoading />;}
+
+  let persistor = persistStore(store);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor} >
+          <Teste />
+        </PersistGate>
+      </Provider>
+    </ThemeProvider>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
+
 
 /*
 "yarn add react-redux @reduxjs/toolkit redux-persist"
@@ -26,4 +46,6 @@ const styles = StyleSheet.create({
 "expo install expo-app-loading "
 "yarn add styled-components @types/styled-components-react-native"
 "yarn add axios"
+"yarn add axios"
+"expo install @react-native-async-storage/async-storage"
 */
