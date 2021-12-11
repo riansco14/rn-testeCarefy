@@ -1,10 +1,19 @@
 import React from 'react'
 import { FlatList } from 'react-native-gesture-handler'
+import { useSelector } from 'react-redux';
 import { PacienteCard } from '../../components/PacienteCard'
+import { PacienteDTO } from '../../dtos/PacienteDTO';
+import { selectPacientes } from '../../store/pacientes/PacienteSlice';
 
 import { Container, Content, Header, Icon, Image, LogoutButton, Title, User, UserContainer, UserHello, UserInfo, UserName } from './styles'
 
 export function Home() {
+
+    const pacientes = useSelector(selectPacientes);
+
+    function handlePacienteCard(item: PacienteDTO) {
+    }
+
     return (
         <Container>
             <Header>
@@ -29,10 +38,11 @@ export function Home() {
             <Content>
                 <Title>Pacientes</Title>
 
-                <FlatList
-                    data={ [1,2,3]}
-                    renderItem={({item})=><PacienteCard key={item} />}
-                />
+                {pacientes && <FlatList
+                    data={pacientes}
+                    keyExtractor={(item: PacienteDTO)=> item.id}
+                    renderItem={({ item }) => <PacienteCard data={item} onPress={() => handlePacienteCard(item)} />}
+                />}
 
             </Content>
         </Container>
