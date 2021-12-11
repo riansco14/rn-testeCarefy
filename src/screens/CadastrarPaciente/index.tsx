@@ -4,6 +4,7 @@ import * as Location from 'expo-location';
 import * as Yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import uuid from 'react-native-uuid'
 
 import { Container, Footer, Header, HeaderTitle, LocalizacaoInfo, SubTitleForm, SubTitleFormError, TitleForm } from './styles'
 import { InputForm } from '../../components/InputForm';
@@ -12,10 +13,10 @@ import { Button } from '../../components/Button';
 import { Content } from '../Login/styles';
 import { Alert } from 'react-native';
 
-import { PacienteDTO } from '../../dtos/PacienteDTO';
 import { parseDateString } from '../../utils/parseDateString';
 import { useAppDispatch } from '../../store/hooks';
 import { adicionarPaciente } from '../../store/pacientes/PacienteSlice';
+
 
 
 
@@ -47,6 +48,7 @@ export function CadastrarPaciente() {
 
         try {
             const pacienteData = {
+                id: String(uuid.v4()),
                 nome: form.nome,
                 dataNasc: form.dataNasc,
                 localizacao: {
