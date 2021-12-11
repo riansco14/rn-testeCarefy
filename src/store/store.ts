@@ -5,15 +5,17 @@ import { persistReducer } from 'redux-persist';
 import thunk from 'redux-thunk';
 
 import messageReducer from '../store/message/MessageSlice';
+import pacientesReducer from '../store/pacientes/PacienteSlice';
 
 const reducers = combineReducers({
     message: messageReducer,
+    pacientes: pacientesReducer
 });
 
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    version: 2,
+    version: 3,
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
