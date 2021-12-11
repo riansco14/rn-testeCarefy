@@ -17,19 +17,26 @@ export const PacienteSlice = createSlice({
     initialState,
     reducers: {
         adicionarPaciente: (state, action: PayloadAction<PacienteDTO>) => {
-            return {...state, data: [...state.data, action.payload]}
+            return { ...state, data: [...state.data, action.payload] }
         },
+        atualizarPaciente: (state, action: PayloadAction<PacienteDTO>) => {
+
+            const index = state.data.findIndex(item => item.id === action.payload.id)
+            const newArray = [...state.data]
+            newArray[index] = action.payload
+            
+            return { ...state, data: newArray }
+        },
+        removerPaciente: (state, action: PayloadAction<PacienteDTO>)=>{
+            const newArrayPacientes = state.data.filter(item => item.id !== action.payload.id)
+
+            return {...state, data: newArrayPacientes}
+        }
     },
 });
 
-export const {  adicionarPaciente } = PacienteSlice.actions;
+export const { adicionarPaciente, atualizarPaciente, removerPaciente } = PacienteSlice.actions;
 
-// The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
 export const selectPacientes = (state: RootState) => state.pacientes.data;
-
-// We can also write thunks by hand, which may contain both sync and async logic.
-// Here's an example of conditionally dispatching actions based on current state.
 
 export default PacienteSlice.reducer;
