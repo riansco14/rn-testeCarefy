@@ -2,7 +2,7 @@ import styled from 'styled-components/native'
 
 export const Container = styled.View`
     flex:1;
-
+    background-color: ${({theme})=>theme.colors.background};
 `
 
 export const Header = styled.View`
@@ -25,7 +25,7 @@ export const HeaderTitle = styled.Text`
      color: ${({ theme }) => theme.colors.shape};
 `
 export const Content = styled.View`
-    width: 100%;
+    height: 100%;
 `
 
 export const TitleForm = styled.Text`
@@ -43,4 +43,25 @@ export const SubTitleForm = styled.Text`
 
     align-self: center;
     margin-bottom: 10px;
+`
+
+export const SubTitleFormError = styled.Text`
+    font-family: ${({ theme }) => theme.fonts.medium};
+    font-size: 14px;
+    color: ${({ theme }) => theme.colors.attention};
+
+    align-self: center;
+    text-align: center;
+    margin-bottom: 10px;
+`
+
+export const LocalizacaoInfo = styled.View`
+    width: 100%;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: ${({ theme }) => theme.colors.shape};
+`
+
+export const Footer = styled.View`
+    padding: 20px;
 `

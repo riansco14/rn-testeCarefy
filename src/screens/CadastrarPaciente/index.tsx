@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { Container, Header, HeaderTitle, TitleForm } from './styles'
+import { Container, Footer, Header, HeaderTitle, LocalizacaoInfo, SubTitleForm, SubTitleFormError, TitleForm } from './styles'
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from "yup";
 import { useForm } from 'react-hook-form';
-
 import { parse, isDate, isValid } from "date-fns";
+
+import * as Location from 'expo-location';
+
 
 const today = new Date();
 
@@ -40,7 +42,27 @@ export function CadastrarPaciente() {
     async function handleRegister(form: FormData) {
     }
 
-   
+    useEffect(() => {
+        getLocation()
+    }, [])
+
+    const [location, setLocation] = useState(null);
+    const [errorMsg, setErrorMsg] = useState(null);
+    async function getLocation() {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+            setErrorMsg("Permissão para acessar a localização negada")
+            return;
+        }
+
+        let location = await Location.getCurrentPositionAsync({});
+        setErrorMsg(null)
+        setLocation(location);
+        return;
+    }
+
+
+
     return (
         <Container>
             <Header>
@@ -50,12 +72,24 @@ export function CadastrarPaciente() {
                 <TitleForm>Dados do Paciente</TitleForm>
                 <InputForm name='nome' placeholder="Nome" control={control} error={errors.nome && errors.nome.message} />
                 <InputFormDate placeholder='Data de Nascimento' name='dataNasc' control={control} error={errors.dataNasc && errors.dataNasc.message} type='datetime' />
-                
-               
 
-                <Button title="Cadastro" onPress={handleSubmit(handleRegister)}></Button>
+
+                <TitleForm>Localização</TitleForm>
+                <LocalizacaoInfo>
+                    {location && <>
+                        <SubTitleForm>Latitude: {JSON.stringify(location["coords"]["latitude"])}</SubTitleForm>
+                        <SubTitleForm>Longitude: {JSON.stringify(location["coords"]["longitude"])}</SubTitleForm>
+                    </>}
+                    {errorMsg && <>
+                        <SubTitleFormError>{errorMsg}</SubTitleFormError>
+                        <Button style={{backgroundColor: "#e83f5b"}} title="Permitir Localização" onPress={getLocation}></Button>
+                    </>}
+                </LocalizacaoInfo>
+
             </Content>
-
+            <Footer>
+                <Button title="Cadastrar Paciente" onPress={handleSubmit(handleRegister)}></Button>
+            </Footer>
         </Container>
     )
 }
