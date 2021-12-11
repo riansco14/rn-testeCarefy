@@ -6,10 +6,12 @@ import thunk from 'redux-thunk';
 
 import messageReducer from '../store/message/MessageSlice';
 import pacientesReducer from '../store/pacientes/PacienteSlice';
+import usuarioReducer from '../store/usuario/UsuarioSlice';
 
 const reducers = combineReducers({
     message: messageReducer,
-    pacientes: pacientesReducer
+    pacientes: pacientesReducer,
+    usuario: usuarioReducer
 });
 
 const persistConfig = {
