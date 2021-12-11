@@ -1,53 +1,70 @@
 import React, { useEffect, useState } from 'react'
 
-import { Container, Footer, Header, HeaderTitle, LocalizacaoInfo, SubTitleForm, SubTitleFormError, TitleForm } from './styles'
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from "yup";
-import { useForm } from 'react-hook-form';
-import { parse, isDate, isValid } from "date-fns";
-
 import * as Location from 'expo-location';
+import * as Yup from "yup";
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+
+import { Container, Footer, Header, HeaderTitle, LocalizacaoInfo, SubTitleForm, SubTitleFormError, TitleForm } from './styles'
+import { InputForm } from '../../components/InputForm';
+import { InputFormDate } from '../../components/InputFormDate';
+import { Button } from '../../components/Button';
+import { Content } from '../Login/styles';
+import { Alert } from 'react-native';
+
+import { PacienteDTO } from '../../dtos/PacienteDTO';
+import { parseDateString } from '../../utils/parseDateString';
+import { useAppDispatch } from '../../store/hooks';
+import { adicionarPaciente } from '../../store/pacientes/PacienteSlice';
+
 
 
 const today = new Date();
-
-function parseDateString(value, originalValue,) {
-    const parsedDate = isDate(originalValue)
-        ? originalValue
-        : parse(originalValue, "dd/MM/yyyy", new Date());
-
-    //console.log(originalValue, "\t", parsedDate, "\t",);
-    if (!isValid(parsedDate)) {
-        new Date('');
-    }
-
-    return parsedDate;
-}
 
 const schema = Yup.object().shape({
     nome: Yup.string().required('Nome é obrigatório'),
     dataNasc: Yup.date().typeError("Data invalida").transform(parseDateString).nullable(false).required('Data é obrigatória').max(today, "Data inválida no futuro")
 })
 
-import { InputForm } from '../../components/InputForm';
-import { InputFormDate } from '../../components/InputFormDate';
-import { Button } from '../../components/Button';
-import { Content } from '../Login/styles';
-
 export function CadastrarPaciente() {
-    const { control, handleSubmit, reset, formState: { errors } } = useForm(
-        { mode: "all", reValidateMode: 'onChange', resolver: yupResolver(schema) })
-    const [dateText, setDateText] = useState('')
+    const dispatch = useAppDispatch();
 
-    async function handleRegister(form: FormData) {
-    }
+    const [location, setLocation] = useState(null);
+    const [errorMsg, setErrorMsg] = useState(null);
 
     useEffect(() => {
         getLocation()
     }, [])
 
-    const [location, setLocation] = useState(null);
-    const [errorMsg, setErrorMsg] = useState(null);
+
+    const { control, handleSubmit, reset, formState: { errors } } = useForm(
+        { mode: "all", reValidateMode: 'onChange', resolver: yupResolver(schema) })
+
+    async function handleRegister(form) {
+        if (!location) {
+            return Alert.alert("Insira localização, por favor")
+        }
+
+        try {
+            const pacienteData = {
+                nome: form.nome,
+                dataNasc: form.dataNasc,
+                localizacao: {
+                    latitude: JSON.stringify(location["coords"]["latitude"]),
+                    longitude: JSON.stringify(location["coords"]["longitude"])
+                }
+            } 
+            console.log(pacienteData);
+            
+            dispatch(adicionarPaciente(pacienteData))
+        } catch (error) {
+            console.log(error);
+            
+            return Alert.alert("Não foi possível adicionar")
+        }
+
+    }
+    
     async function getLocation() {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
@@ -60,7 +77,6 @@ export function CadastrarPaciente() {
         setLocation(location);
         return;
     }
-
 
 
     return (
@@ -82,7 +98,7 @@ export function CadastrarPaciente() {
                     </>}
                     {errorMsg && <>
                         <SubTitleFormError>{errorMsg}</SubTitleFormError>
-                        <Button style={{backgroundColor: "#e83f5b"}} title="Permitir Localização" onPress={getLocation}></Button>
+                        <Button style={{ backgroundColor: "#e83f5b" }} title="Permitir Localização" onPress={getLocation}></Button>
                     </>}
                 </LocalizacaoInfo>
 
