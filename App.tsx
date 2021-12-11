@@ -13,10 +13,7 @@ import { useFonts, Poppins_400Regular, Poppins_500Medium, Poppins_700Bold } from
 import AppLoading from 'expo-app-loading';
 
 
-import { Teste } from './src/screens/Teste';
-import { Login } from './src/screens/Login';
-import { Home } from './src/screens/Home';
-import { CadastrarPaciente } from './src/screens/CadastrarPaciente';
+import { Routes } from './src/routes';
 
 export default function App (){
 
@@ -33,7 +30,7 @@ export default function App (){
     <ThemeProvider theme={theme}>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor} >
-          <CadastrarPaciente />
+          <Routes/>
         </PersistGate>
       </Provider>
     </ThemeProvider>
