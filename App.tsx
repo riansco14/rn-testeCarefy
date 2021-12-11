@@ -14,6 +14,9 @@ import AppLoading from 'expo-app-loading';
 
 
 import { Teste } from './src/screens/Teste';
+import { Login } from './src/screens/Login';
+import { Home } from './src/screens/Home';
+import { CadastrarPaciente } from './src/screens/CadastrarPaciente';
 
 export default function App (){
 
@@ -30,7 +33,7 @@ export default function App (){
     <ThemeProvider theme={theme}>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor} >
-          <Teste />
+          <CadastrarPaciente />
         </PersistGate>
       </Provider>
     </ThemeProvider>
