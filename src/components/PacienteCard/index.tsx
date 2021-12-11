@@ -1,15 +1,21 @@
 import React from 'react'
+import { PacienteDTO } from '../../dtos/PacienteDTO'
 
-import {Container, Icon, IconBackground, Nome, PacienteInfo} from './styles'
+import { Container, Icon, IconBackground, Nome, PacienteInfo } from './styles'
 
-export function PacienteCard() {
+interface PacienteCardProps {
+    data: PacienteDTO,
+    onPress(): void
+}
+
+export function PacienteCard({ data, onPress }: PacienteCardProps) {
     return (
-        <Container>
+        <Container onPress={onPress}>
             <IconBackground>
                 <Icon name="people" />
             </IconBackground>
             <PacienteInfo>
-                <Nome>Rian Rabelo</Nome>
+                <Nome>{data.nome}</Nome>
             </PacienteInfo>
 
         </Container>

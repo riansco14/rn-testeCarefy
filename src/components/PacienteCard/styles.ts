@@ -1,7 +1,7 @@
 import styled from 'styled-components/native'
 import { MaterialIcons } from '@expo/vector-icons'
 
-export const Container = styled.View`
+export const Container = styled.TouchableOpacity`
     flex:1;
     flex-direction: row;
 
@@ -15,7 +15,7 @@ export const PacienteInfo = styled.View`
     margin-left: 12px;
 `
 export const IconBackground = styled.View`
-    background-color: ${({ theme }) => theme.colors.text};
+    background-color: #2b7be3;
     border-radius: 6px;
 `
 
