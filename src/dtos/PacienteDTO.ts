@@ -1,4 +1,5 @@
 export interface PacienteDTO{
+    id: string
     nome: string
     dataNasc: Date
     localizacao: {
