@@ -7,19 +7,22 @@ export const Container = styled.View`
 
 export const Header = styled.View`
     width: 100%;
-    height: 15%;
+    height: 10%;
     background-color: ${({ theme }) => theme.colors.primary};
     background-color: #2b7be3;
 
     padding-top: 12px;
+    padding-left: 12px;
+    flex-direction: row;
     
     align-items: center;
-    justify-content: center;
 
     
 `
 
 export const HeaderTitle = styled.Text`
+    flex: 1;
+    text-align: center;
     font-family: ${({ theme }) => theme.fonts.medium};
      font-size: 16px;
      color: ${({ theme }) => theme.colors.shape};

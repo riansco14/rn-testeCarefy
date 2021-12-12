@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import uuid from 'react-native-uuid'
+import { useNavigation } from '@react-navigation/native';
 
 import { Container, Footer, Header, HeaderTitle, LocalizacaoInfo, SubTitleForm, SubTitleFormError, TitleForm } from './styles'
 import { InputForm } from '../../components/InputForm';
@@ -16,6 +17,7 @@ import { Alert } from 'react-native';
 import { parseDateString } from '../../utils/parseDateString';
 import { useAppDispatch } from '../../store/hooks';
 import { adicionarPaciente } from '../../store/pacientes/PacienteSlice';
+import { BackButton } from '../../components/BackButton';
 
 
 
@@ -28,6 +30,7 @@ const schema = Yup.object().shape({
 })
 
 export function CadastrarPaciente() {
+    const navigation = useNavigation();
     const dispatch = useAppDispatch();
 
     const [location, setLocation] = useState(null);
@@ -59,6 +62,10 @@ export function CadastrarPaciente() {
             console.log(pacienteData);
             
             dispatch(adicionarPaciente(pacienteData))
+            reset()
+
+            navigation.goBack()
+            
         } catch (error) {
             console.log(error);
             
@@ -80,10 +87,14 @@ export function CadastrarPaciente() {
         return;
     }
 
-
+    function handleGoBack() {
+        navigation.goBack()
+    }
+    
     return (
         <Container>
             <Header>
+                <BackButton onPress={handleGoBack} />
                 <HeaderTitle>Cadastrar Paciente</HeaderTitle>
             </Header>
             <Content>
