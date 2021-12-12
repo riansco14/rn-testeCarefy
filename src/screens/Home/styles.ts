@@ -63,3 +63,31 @@ export const Title = styled.Text`
      font-size: 24px;
      color: ${({ theme }) => theme.colors.secondary};
 `
+
+export const FloatingButtonContainer = styled.View`
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+
+    margin-top: 18px;
+    margin-left: 24px;
+
+    background-color: #2b7be3;
+
+    border-radius: 15px;
+
+`
+export const FloatingButton = styled(BorderlessButton)`
+    width: 60px;
+    height: 60px;
+    align-items: center;
+    justify-content: center;
+`
+
+export const IconFloating = styled(Feather)`
+    color: ${({ theme }) => theme.colors.background};
+    font-size: 30px;
+`
