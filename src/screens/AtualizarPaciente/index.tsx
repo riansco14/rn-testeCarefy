@@ -4,6 +4,7 @@ import * as Location from 'expo-location';
 import * as Yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
+import { useRoute, useNavigation } from '@react-navigation/native';
 
 import { Container, Footer, Header, HeaderTitle, LocalizacaoInfo, SubTitleForm, SubTitleFormError, TitleForm } from './styles'
 import { InputForm } from '../../components/InputForm';
@@ -18,6 +19,7 @@ import { atualizarPaciente, removerPaciente, selectPacientes } from '../../store
 import { PacienteDTO } from '../../dtos/PacienteDTO';
 import { useSelector } from 'react-redux';
 import { formatDateToString } from '../../utils/formatDateToString';
+import { BackButton } from '../../components/BackButton';
 
 
 
@@ -33,12 +35,15 @@ interface Props {
     data: PacienteDTO
 }
 
-export function AtualizarPaciente({ data }: Props) {
+export function AtualizarPaciente() {
+    const navigation = useNavigation();
+    const route = useRoute();
 
-    const pacientes = useSelector(selectPacientes);
-    data = pacientes[pacientes.length - 1]
+    const { data } = route.params as Props
 
     const dispatch = useAppDispatch();
+
+
 
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
@@ -56,7 +61,7 @@ export function AtualizarPaciente({ data }: Props) {
         setValue('dataNasc', formatDateToString(data.dataNasc), { shouldValidate: true })
     }, [])
 
-    async function handleRegister(form) {
+    async function handleAtualizar(form) {
         if (!location) {
             return Alert.alert("Insira localização, por favor")
         }
@@ -82,6 +87,10 @@ export function AtualizarPaciente({ data }: Props) {
 
     }
 
+    function handleGoBack() {
+        navigation.goBack()
+    }
+
     async function handleDelete() {
         return Alert.alert(
             "Você tem certeza ?",
@@ -91,6 +100,7 @@ export function AtualizarPaciente({ data }: Props) {
                     text: "Sim",
                     onPress: () => {
                         dispatch(removerPaciente(data))
+                        navigation.goBack()
                     },
                 },
                 {
@@ -117,6 +127,7 @@ export function AtualizarPaciente({ data }: Props) {
     return (
         <Container>
             <Header>
+                <BackButton onPress={handleGoBack} />
                 <HeaderTitle>Cadastrar Paciente</HeaderTitle>
             </Header>
             <Content>
@@ -139,9 +150,9 @@ export function AtualizarPaciente({ data }: Props) {
 
             </Content>
             <Footer>
-                <Button title="Atualizar Paciente" onPress={handleSubmit(handleRegister)}></Button>
+                <Button title="Atualizar Paciente" onPress={handleSubmit(handleAtualizar)}></Button>
 
-                <Button style={{backgroundColor: "#e83f5b", marginTop: 20}} title="Remover Paciente" onPress={handleDelete}></Button>
+                <Button style={{ backgroundColor: "#e83f5b", marginTop: 20 }} title="Remover Paciente" onPress={handleDelete}></Button>
             </Footer>
         </Container>
     )
