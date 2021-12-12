@@ -19,8 +19,8 @@ export const UsuarioSlice = createSlice({
         adicionarUsuario: (state, action: PayloadAction<UsuarioDTO>) => {
             return { ...state, data: action.payload }
         },
-        removerUsuario: (state, action) => {
-            return { ...state, data: {} as UsuarioDTO }
+        removerUsuario: (state) => {
+            return initialState
         },
     },
 });
