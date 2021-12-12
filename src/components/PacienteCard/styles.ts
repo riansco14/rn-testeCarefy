@@ -2,7 +2,6 @@ import styled from 'styled-components/native'
 import { MaterialIcons } from '@expo/vector-icons'
 
 export const Container = styled.TouchableOpacity`
-    flex:1;
     flex-direction: row;
 
     background-color: ${({ theme }) => theme.colors.shape};
