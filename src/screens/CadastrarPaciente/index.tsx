@@ -64,7 +64,7 @@ export function CadastrarPaciente() {
             dispatch(adicionarPaciente(pacienteData))
             reset()
 
-            navigation.goBack()
+            //navigation.goBack()
             
         } catch (error) {
             console.log(error);
