@@ -19,7 +19,8 @@ export function Login() {
             id,
             name,
             login,
-            avatar_url
+            avatar_url,
+            token: '123'
         }
 
         dispatch(adicionarUsuario(usuario))

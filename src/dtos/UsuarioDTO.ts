@@ -3,4 +3,5 @@ export interface UsuarioDTO{
     name: string
     login: string
     avatar_url: string
+    token?: string
 }
